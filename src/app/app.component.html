@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+  <div class="head-content"><a class="navbar-brand" href="#">AGM</a> </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="map">
+            <agm-map 
+                [latitude]="lat" 
+                [longitude]="lng"
+                [zoom]="zoom"
+                [disableDefaultUI]=false
+                [zoomControl]="false"
+                (mapClick)="mapClicked($event)">
+
+                <agm-marker
+                    *ngFor="let mark of markers; let i = index" 
+                    (markerClick)="markClicked(m,i)"
+                    [latitude]="mark.lat" 
+                    [longitude]="mark.lng"
+                    [markerDraggable]="mark.arrastrable"
+                    (dragEnd)="posicionFinalMarcador(mark, $event)">
+                    
+                    <agm-info-window>
+                        <strong> {{mark.name}} </strong>
+                        <br>
+                        <a class="delete" (click)="deleteMarkArray(mark)">Borrar</a>
+                    </agm-info-window>
+
+                </agm-marker>
+            </agm-map>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Agregar un marcador</h3>
+                </div>
+
+                <div class="panel-body">
+                    <form (submit)="addMarker()" class="form-group">
+                        <label class="col-form-label">Nombre de la ubicacion</label>
+                        <input class="form-control" type="text"[(ngModel)]="markName" name="markname" >
+
+                        <label class="col-form-label">Latitud</label>
+                        <input class="form-control" type="text"[(ngModel)]="markLat" name="markLat" >
+
+                        <label class="col-form-label">Longitud</label>
+                        <input class="form-control" type="text"[(ngModel)]="markLng" name="markLng" >
+
+                        <label class="col-form-label">Arrastrable</label>
+                        <select class="form-control bottom" [(ngModel)]="markArrastrable" name="markArrastrable">
+                            <option value="no">No</option>
+                            <option value="si">Si</option>
+                        </select>
+
+                        <br> <br>
+                        <input type="submit" class="btn btn-primary" value="Agregar Marcador" >
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
